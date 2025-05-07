@@ -13,6 +13,34 @@ class ProductListScreen extends StatelessWidget {
     final lang = langProvider.currentLang;
     final t = translations[lang]!;
 
+    final List<Map<String, String>> products = [
+      {
+        'name': t['product1_name']!,
+        'desc': t['product1_desc']!,
+        'image': 'assets/images/black_headphones.png',
+      },
+      {
+        'name': t['product2_name']!,
+        'desc': t['product2_desc']!,
+        'image': 'assets/images/smart_watch.png',
+      },
+      {
+        'name': t['product3_name']!,
+        'desc': t['product3_desc']!,
+        'image': 'assets/images/running_shoes.png',
+      },
+      {
+        'name': t['product4_name']!,
+        'desc': t['product4_desc']!,
+        'image': 'assets/images/speaker.png',
+      },
+      {
+        'name': t['product5_name']!,
+        'desc': t['product5_desc']!,
+        'image': 'assets/images/backpack.png',
+      },
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
@@ -32,67 +60,17 @@ class ProductListScreen extends StatelessWidget {
       ),
       body: Directionality(
         textDirection: langProvider.textDirection,
-        child: SingleChildScrollView(
+        child: ListView.builder(
           padding: const EdgeInsets.all(12),
-          child: ProductTile(
-            name: translations[lang]!['product1_name']!,
-            description: translations[lang]!['product1_desc']!,
-            imageAsset: 'assets/images/black_headphones.png',
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                label: Text(t['add_to_cart']!),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Added to cart')),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              flex: 2,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.payment,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                label: Text(t['buy_now']!),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Proceeding to buy')),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return ProductTile(
+              name: product['name']!,
+              description: product['desc']!,
+              imageAsset: product['image']!,
+            );
+          },
         ),
       ),
     );
